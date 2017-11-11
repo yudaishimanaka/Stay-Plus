@@ -8,6 +8,6 @@ def http_header(pkt):
 
 
 def get_url(pkt):
-    return pkt[IP].dst
+    return pkt[http].show
 
 sniff(iface="enp0s25", filter="tcp and port 80", prn=get_url)

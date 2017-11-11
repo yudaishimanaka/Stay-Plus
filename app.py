@@ -1,3 +1,10 @@
-from scapy import *
+from scapy.all import *
+from flask_socketio import *
+from flask import *
 
-def()
+app = Flask(__name__)
+
+
+def packet_capture(interface):
+    obj = sniff(iface=interface, filter="tcp and port 80")
+    obj.summary()

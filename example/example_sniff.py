@@ -1,4 +1,13 @@
 from scapy.all import *
 
-obj = sniff(iface="wlp2s0", prn=lambda x: x.show())
-obj.nsummary()
+
+def http_header(pkt):
+    http_packet = str(pkt)
+    if http_packet.find('GET'):
+        return get_url(pkt)
+
+
+def get_url(pkt):
+    return pkt[IP].dst
+
+sniff(iface="enp0s25", filter="tcp and port 80", prn=get_url)

@@ -13,4 +13,4 @@ def get_url(pkt):
     ret += "----------------------------------------------------------------------------------------------------\n"
     return ret
 
-sniff(iface="enp0s25", filter="tcp and port 80", prn=get_url)
+sniff(iface="enp0s25", filter="tcp and port 443", prn=get_url)

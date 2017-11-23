@@ -1,17 +1,11 @@
 from flask import *
+from webui import web
+from flask_socketio import *
 
 app = Flask(__name__)
+app.register_blueprint(web.app)
 
-
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

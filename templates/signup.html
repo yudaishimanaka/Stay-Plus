@@ -14,15 +14,33 @@
                 <img src="static/images/eye.png" width="30" height="30"/>
                 Reliable eye
             </h2>
-            <label for="inputEmail" class="sr-only">Email Address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <div class="form-group">
+                <label for="inputEmail">Email Address</label>
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="inputUsername">User Name</label>
+                <input type="text" id="inputUsername" class="form-control" placeholder="User Name" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="inputMacAddress">Mac Address</label>
+                <div id="dialog-message" title="Enter MAC address">
+                    <input id="inputMacAddress" type="text" maxlength="17" class="form-control" placeholder="Enter your target MAC address">
+                </div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+            <div class="text-center">
+                <a href="/signin" class="btn btn-default btn-sm" role="button">Sign in</a>
+            </div>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="static/js/mac-address.js"></script>
   </body>
 </html>

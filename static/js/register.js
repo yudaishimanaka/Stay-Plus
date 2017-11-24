@@ -15,11 +15,15 @@ $(function(){
                     $("#inputUsername").val("")
                     $("#inputPassword").val("")
                     $("#inputMacAddress").val("")
-                    console.log("register success")
+                    $("#success").css('display','')
+                    $("#success").html("Sign up is successfully")
                 }else if(response == "1"){
-                    console.log("既に同じメールアドレスまたはMACアドレスが登録されています。")
+                    $("#alert").css('display','')
+                    $("#alert").html("The same user name or MAC address is already in use.")
+
                 }else{
-                    console.log("register failed")
+                    $("#alert").css('display','')
+                    $("#alert").html("register failed.")
                 }
             },
             error: function(response){

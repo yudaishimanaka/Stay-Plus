@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link href="static/css/signin.css" rel="stylesheet">
+    <link href="static/css/signup.css" rel="stylesheet">
+    <link href="static/css/animate.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -14,6 +15,8 @@
                 <img src="static/images/eye.png" width="30" height="30"/>
                 Reliable eye
             </h2>
+            <div id="alert" class="alert alert-danger animated shake" role="alert" style="display: none;"></div>
+            <div id="success" class="alert alert-success animated shake" role="alert" style="display: none;"></div>
             <div class="form-group">
                 <label for="inputEmail">Email Address</label>
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email Address" required autofocus>

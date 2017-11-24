@@ -1,6 +1,7 @@
 from flask import *
 from webui import web
 from flask_socketio import *
+from passlib.hash import pbkdf2_sha256
 from database import Session as Ss
 from models import User
 import re
@@ -16,7 +17,7 @@ def register():
     if request.method == "POST":
         email = request.json['email']
         user_name = request.json['user_name']
-        password = request.json['password']
+        password = pbkdf2_sha256.hash(request.json['password'])
         mac_address = request.json['mac_address']
 
         if email and user_name and password and mac_address:
@@ -34,12 +35,33 @@ def register():
                                 user_name=user_name,
                                 password=password,
                                 mac_address=mac_address)
-                    Ss.add(user)
-                    Ss.commit()
-                    result = "2"
+                    try:
+                        Ss.add(user)
+                        Ss.commit()
+                        result = "2"
+                    except:
+                        Ss.rollback()
+                        result = "1"
+
+    return result
+
+
+@app.route('/auth', methods=['POST'])
+def auth():
+    result = "0"
+    if request.method == "POST":
+        user_name = request.json['user_name']
+        password = request.json['password']
+
+        if user_name and password:
+            user = Ss.query(User).filter_by(user_name=user_name).first()
+            print(user.password)
+
+            if user is not None and pbkdf2_sha256.verify(password, user.password) is True:
+                result = "1"
 
     return result
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

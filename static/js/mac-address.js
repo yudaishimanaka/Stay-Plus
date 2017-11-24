@@ -1,16 +1,4 @@
-var macAddress = $("#macAddress");
-
-$(function () {
-    $("#dialog-message").dialog({
-        modal: true,
-        buttons: {
-            Ok: function () {
-                $(this).dialog("close");
-                alert("MAc address entered: " + macAddress.val());
-            }
-        }
-    });
-});
+var macAddress = document.getElementById("inputMacAddress");
 
 function formatMAC(e) {
     var r = /([a-f0-9]{2})([a-f0-9]{2})/i,
@@ -23,4 +11,4 @@ function formatMAC(e) {
     e.target.value = str.slice(0, 17);
 };
 
-macAddress.on("keyup", formatMAC);
+macAddress.addEventListener("keyup", formatMAC, false);

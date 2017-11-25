@@ -8,7 +8,26 @@ import re
 
 
 app = Flask(__name__)
-app.register_blueprint(web.app)
+
+app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user_name' in session:
+        return render_template('dashboard.html')
+    else:
+        return redirect(url_for('signin'))
+
+
+@app.route('/signin')
+def signin():
+    return render_template('signin.html')
+
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
 
 @app.route('/register', methods=['POST'])
@@ -48,20 +67,21 @@ def register():
 
 @app.route('/auth', methods=['POST'])
 def auth():
-    result = "0"
     if request.method == "POST":
-        user_name = request.json['user_name']
-        password = request.json['password']
+        user_name = request.form['user_name']
+        password = request.form['password']
 
         if user_name and password:
             user = Ss.query(User).filter_by(user_name=user_name).first()
-            print(user.password)
 
             if user is not None and pbkdf2_sha256.verify(password, user.password) is True:
-                result = "1"
+                session['user_name'] = user_name
+                session.pop('msg', None)
+                return redirect(url_for('dashboard'))
 
-    return result
+    session['msg'] = "auth failed"
+    return redirect(url_for('signin'))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

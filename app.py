@@ -29,6 +29,12 @@ def signup():
     return render_template('signup.html')
 
 
+@app.route('/signout')
+def signout():
+    session.pop('user_name', None)
+    return redirect(url_for('signin'))
+
+
 @app.route('/register', methods=['POST'])
 def register():
     result = "0"

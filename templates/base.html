@@ -7,11 +7,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
-    <nav class="navbar navbar-light bg-faded">
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <a class="navbar-brand" href="#">
-        <img src="static/images/eye.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        reliable eyes
+        <img src="static/images/eye.png" width="30" height="30" alt="">
+        Reliable eye
       </a>
+      <div class="navbar-nav ml-auto">
+        <form class="form-inline my-2 my-lg-0 navbar-right" action="/signout" method="get">
+          <button class="btn btn-outline-primary" type="submit">Sign out</button>
+        </form>
+      </div>
     </nav>
     <div class="container-fluid">
         {% block content %}

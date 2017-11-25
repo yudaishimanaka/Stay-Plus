@@ -1,5 +1,4 @@
 from flask import *
-from webui import web
 from flask_socketio import *
 from passlib.hash import pbkdf2_sha256
 from database import Session as Ss

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="static/js/stay_status_web_socket.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -15,10 +16,20 @@
         <img src="static/images/eye.png" width="30" height="30" alt="">
         Reliable eye
       </a>
-      <div class="navbar-nav ml-auto">
-        <form class="form-inline my-2 my-lg-0 navbar-right" action="/signout" method="get">
-          <button class="btn btn-outline-primary" type="submit">Sign out</button>
-        </form>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/setting">Settings</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="/signout">Sign out</a>
+          </li>
+        </ul>
       </div>
     </nav>
     <div class="container-fluid">

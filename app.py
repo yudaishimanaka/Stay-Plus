@@ -1,5 +1,4 @@
 from flask import *
-from flask_socketio import *
 from passlib.hash import pbkdf2_sha256
 from database import Session as Ss
 from models import User
@@ -33,6 +32,14 @@ def signup():
 def signout():
     session.pop('user_name', None)
     return redirect(url_for('signin'))
+
+
+@app.route('/setting')
+def setting():
+    if 'user_name' in session:
+        return render_template('setting.html')
+    else:
+        return redirect(url_for('signin'))
 
 
 @app.route('/register', methods=['POST'])

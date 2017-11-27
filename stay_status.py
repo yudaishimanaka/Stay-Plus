@@ -6,16 +6,20 @@ import tornado.websocket
 import time
 import subprocess
 import re
+import threading
 
 
-ip_fmt = '192.168.1.%d'
+ip_fmt = "192.168.1.%d"
 mac_list = []
 
 def get_mac(ip_address):
     output = subprocess.Popen(['arping', '-c', '1', ip_address], stdout=subprocess.PIPE).communicate()
     pattern = r"(\[(.+)\])"
-    match_result = re.split(pattern, output[0].decode('utf-8'))
-    return match_result[2]
+    try:
+        match_result = re.split(pattern, output[0].decode('utf-8'))
+        return match_result[2]
+    except IndexError:
+        pass
 
 
 def get_stay_status(arp_mac, db_mac):
@@ -30,9 +34,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if message == 'hello':
-            print(get_mac("192.168.1.1"))
-            self.write_message("message received!!")
-            time.sleep(10)
+
 
     def on_close(self):
         print("### connection closed ###")

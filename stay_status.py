@@ -36,7 +36,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         if message == 'hello':
             for i in range(1, 254):
                 ip = ip_fmt % i
-                print(get_mac(str(ip)))
+                t = threading.Thread(target=get_mac, args=ip)
+                t.start()
 
     def on_close(self):
         print("### connection closed ###")

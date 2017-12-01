@@ -69,6 +69,7 @@ def register():
                     try:
                         Ss.add(user)
                         Ss.commit()
+                        Ss.close()
                         result = "2"
                     except:
                         Ss.rollback()

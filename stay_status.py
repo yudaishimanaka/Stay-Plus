@@ -37,7 +37,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         if message == 'hello':
             user = Ss.query(User)
             for i in range(user.count()):
-
+                print(user[i].mac_address)
 
     def on_close(self):
         print("### connection closed ###")

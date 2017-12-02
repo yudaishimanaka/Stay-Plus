@@ -11,20 +11,28 @@ import threading
 
 
 ip_fmt = "192.168.1.%d"
-mac_list = []
 lock = threading.Lock()
 
 
-def get_mac(ip_address):
-    output = subprocess.Popen(['arping', '-c', '1', ip_address], stdout=subprocess.PIPE).communicate()
-    pattern = r"(\[(.+)\])"
+def get_mac():
+    mac_and_ip_list = []
+    buf = []
+    output = subprocess.Popen('python get_mac.py', stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    pattern = r"(.........(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+\[(.+)\])(.+])"
     try:
-        match_result = re.split(pattern, output[0].decode('utf-8'))
-        with lock:
+        while True:
+            line = output.stdout.readline()
+            buf.append(line)
+
+            if not line and output.poll() is not None:
+                break
+        for i in range(255):
+            match_result = re.match(pattern, buf[i].decode('utf-8'))
             if match_result is not None:
-                print(match_result[2])
+                mac_and_ip_list.append([match_result.group(2), match_result.group(3)])
             else:
                 pass
+        return mac_and_ip_list
     except IndexError:
         pass
 
@@ -42,24 +50,17 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if message == 'hello':
-            def threader():
-                while True:
-                    worker = q.get()
-                    get_mac(worker)
-                    q.task_done()
-
-            q = Queue()
-
-            for x in range(255):
-                t = threading.Thread(target=threader)
-                t.daemon = True
-                t.start()
-
-            for i in range(1, 255):
-                ip = ip_fmt % i
-                q.put(ip)
-
-            q.join()
+            while True:
+                data = []
+                result = get_mac()
+                user = Ss.query(User)
+                for z in range(len(result)):
+                    for x in range(user.count()):
+                        if result[z][1].lower() == user[x].mac_address.lower():
+                            print(user[x].user_name + ":" + user[x].mac_address + " is alive")
+                            data.append([user[x].user_name, user[x].email_address, user[x].mac_address, user[x].avatar])
+                self.write_message(str(data))
+                time.sleep(15)
 
     def on_close(self):
         print("### connection closed ###")

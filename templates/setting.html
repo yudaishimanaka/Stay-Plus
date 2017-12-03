@@ -1,4 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-settings page
+<div class="mx-auto" style="width: 400px;">
+    <div class="media">
+        <img class="d-flex mr-3" src="static/images/profile_sample.png" alt="Generic placeholder iamge">
+        <div class="media-hody">
+            <h5 class="mt-0">Yudai Shimanaka</h5>
+            <h6 class="mt-0" style="margin-bottom: 0px;"><strong>Email</strong></h6>
+            <p>gurutaminn.h8@gmail.com</p>
+            <h6 class="mt-0" style="margin-bottom: 0px;"><strong>IP address</strong></h6>
+            <p>192.168.1.65</p>
+            <h6 class="mt-0" style="margin-bottom: 0px;"><strong>Hardware address</strong></h6>
+            <p>3c:97:0e:c3:47:2d</p>
+        </div>
+    </div>
+    <div class="mx-auto" style="width:100px;">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#flipFlop">
+            Edit Profile
+        </button>
+    </div>
+    <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel">Change Profile Image</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="mx-auto" style="width:135px;">
+                            <div class="imagePreview"></div>
+                        </div>
+                        <div class="input-group" style="margin-bottom:8px">
+                            <label class="input-group-btn" style="margin-bottom:0px;">
+                                <span class="btn btn-primary">
+                                    Choose File<input type="file" style="display:none;" class="uploadFile">
+                                </span>
+                            </label>
+                            <input type="text" class="form-control" readonly="" style="padding-top:0px;padding-bottom:0px;">
+                        </div>
+                        <div class="input-group mx-auto" style="width: 100px;">
+                            <button type="submit" class="btn btn-outline-primary">Change</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

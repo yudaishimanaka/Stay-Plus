@@ -1,6 +1,5 @@
 from flask import *
 from passlib.hash import pbkdf2_sha256
-from werkzeug.utils import secure_filename
 from database import Session as Ss
 from models import User
 import re
@@ -43,11 +42,14 @@ def signout():
 def setting():
     if 'user_name' in session:
         user = Ss.query(User).filter_by(user_name=session['user_name']).one()
-        f = open(user.avatar, 'rb+')
-        data = f.read()
-        profile_image = b64encode(data)
-        f.close()
-        return render_template('setting.html', user=user, profile_image=profile_image.decode('utf-8'))
+        if user.avatar is not None:
+            f = open(user.avatar, 'rb+')
+            data = f.read()
+            profile_image = b64encode(data)
+            f.close()
+            return render_template('setting.html', user=user, profile_image=profile_image.decode('utf-8'))
+        else:
+            return render_template('setting.html', user=user)
     else:
         return redirect(url_for('signin'))
 
@@ -113,7 +115,6 @@ def change_profile_image():
         filename = avatar.filename
         avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         user = Ss.query(User).filter_by(user_name=session['user_name']).one()
-        print(app.config['UPLOAD_FOLDER'] + "/" + filename)
         user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
         Ss.commit()
         Ss.close()

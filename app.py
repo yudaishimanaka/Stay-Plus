@@ -1,13 +1,18 @@
 from flask import *
 from passlib.hash import pbkdf2_sha256
+from werkzeug.utils import secure_filename
 from database import Session as Ss
 from models import User
 import re
+import os
+from base64 import b64encode
 
 
 app = Flask(__name__)
+UPLOAD_FOLDER = "/tmp"
 
 app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/dashboard')
@@ -37,7 +42,12 @@ def signout():
 @app.route('/setting')
 def setting():
     if 'user_name' in session:
-        return render_template('setting.html')
+        user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+        f = open(user.avatar, 'rb+')
+        data = f.read()
+        profile_image = b64encode(data)
+        f.close()
+        return render_template('setting.html', user=user, profile_image=profile_image.decode('utf-8'))
     else:
         return redirect(url_for('signin'))
 
@@ -94,6 +104,20 @@ def auth():
 
     session['msg'] = "auth failed"
     return redirect(url_for('signin'))
+
+
+@app.route('/change_profile_image', methods=['POST'])
+def change_profile_image():
+    if request.method == "POST":
+        avatar = request.files['avatar']
+        filename = avatar.filename
+        avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+        print(app.config['UPLOAD_FOLDER'] + "/" + filename)
+        user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
+        Ss.commit()
+        Ss.close()
+        return redirect('setting')
 
 
 if __name__ == "__main__":

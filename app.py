@@ -8,7 +8,7 @@ from base64 import b64encode
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/tmp"
+UPLOAD_FOLDER = "/images"
 
 app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

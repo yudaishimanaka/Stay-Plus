@@ -11,7 +11,10 @@ ws.onerror = function() {
 };
 
 ws.onmessage = function(event) {
-    console.log(event.data)
+    var string = event.data.replace("[['", '')
+    string = string.replace("']]", '')
+    var array = string.split("', '")
+    console.log(array)
     ws.send('hello')
 };
 

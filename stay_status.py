@@ -3,7 +3,7 @@ from models import User
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
-from queue import Queue
+import json
 import time
 import subprocess
 import re
@@ -49,8 +49,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print("### connection started ###")
 
     def on_message(self, message):
-        if message == 'hello':
-            while True:
+        while True:
+            if message == 'hello':
                 data = []
                 result = get_mac()
                 user = Ss.query(User)
@@ -58,12 +58,19 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     for x in range(user.count()):
                         if result[z][1].lower() == user[x].mac_address.lower():
                             print(user[x].user_name + ":" + user[x].mac_address + " is alive")
-                            data.append([user[x].user_name, user[x].email_address, user[x].mac_address, user[x].avatar])
-                self.write_message(str(data))
-                time.sleep(15)
+                            data.append({"user_name":user[x].user_name,
+                                         "email_address":user[x].email_address,
+                                         "mac_address":user[x].mac_address,
+                                         "avatar":user[x].avatar,
+                                         "ip_address":result[z][0]})
+                self.write_message(json.dumps(data), binary=False)
+            else:
+                break
+            time.sleep(15)
 
     def on_close(self):
         print("### connection closed ###")
+
 
 app = tornado.web.Application([
     (r"/ws/", WebSocketHandler),
@@ -71,6 +78,6 @@ app = tornado.web.Application([
 
 if __name__ == "__main__":
     app.listen(port=8888)
-    mainloop = tornado.ioloop.IOLoop.instance()
+    mainloop = tornado.ioloop.IOLoop.current()
     mainloop.start()
 

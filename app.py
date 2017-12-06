@@ -1,4 +1,5 @@
 from flask import *
+from flask import make_response
 from passlib.hash import pbkdf2_sha256
 from database import Session as Ss
 from models import User
@@ -8,7 +9,7 @@ from base64 import b64encode
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/images"
+UPLOAD_FOLDER = "/client_images"
 
 app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -36,6 +37,17 @@ def signup():
 def signout():
     session.pop('user_name', None)
     return redirect(url_for('signin'))
+
+
+@app.route('/client_images/<image_path>', methods=['GET'])
+def get_image(image_path):
+    avatar = app.config['UPLOAD_FOLDER'] + "/" + image_path
+    f = open(avatar, 'rb+')
+    data = f.read()
+    resp = make_response(data)
+    resp.content_type = "image/jpeg"
+    f.close()
+    return resp
 
 
 @app.route('/setting')

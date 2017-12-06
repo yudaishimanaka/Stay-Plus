@@ -1,5 +1,6 @@
 from database import Session as Ss
 from models import User
+from datetime import timedelta
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
@@ -12,6 +13,7 @@ import threading
 
 ip_fmt = "192.168.1.%d"
 lock = threading.Lock()
+clients = []
 
 
 def get_mac():
@@ -37,20 +39,26 @@ def get_mac():
         pass
 
 
-def dummy_func(num):
-    return num
-
-
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
 
     def open(self):
         print("### connection started ###")
+        clients.append(self)
 
     def on_message(self, message):
+        print(message)
+
+    def on_close(self):
+        print("### connection closed ###")
+        clients.remove(self)
+
+
+def send_message_to_client():
+    try:
         while True:
-            if message == 'hello':
+            for c in clients:
                 data = []
                 result = get_mac()
                 user = Ss.query(User)
@@ -63,13 +71,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                                          "mac_address": str(user[x].mac_address),
                                          "avatar": str(user[x].avatar),
                                          "ip_address": str(result[z][0])})
-                self.write_message(json.dumps(data))
-            else:
-                break
+                c.write_message(json.dumps(data))
             time.sleep(15)
-
-    def on_close(self):
-        print("### connection closed ###")
+    except tornado.websocket.WebSocketClosedError:
+        pass
 
 
 app = tornado.web.Application([
@@ -77,7 +82,8 @@ app = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
+    t = threading.Thread(target=send_message_to_client)
+    t.start()
     app.listen(port=8888)
-    mainloop = tornado.ioloop.IOLoop.current()
-    mainloop.start()
+    tornado.ioloop.IOLoop.instance().start()
 

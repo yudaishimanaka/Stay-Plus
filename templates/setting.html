@@ -3,9 +3,9 @@
 <div class="mx-auto" style="width: 400px;margin-top: 100px;">
     <div class="media">
         {% if profile_image %}
-        <img class="d-flex mr-3 imagePreview" src="data:;base64,{{ profile_image }}" alt="Generic placeholder image">
+        <img class="d-flex mr-3 imagePreview" style="background-image: url(.{{ user.avatar }});">
         {% else %}
-        <img class="d-flex mr-3" src="static/images/profile_sample.png" alt="Generic placeholder iamge">
+        <img class="d-flex mr-3" src="static/images/profile_sample.png">
         {% endif %}
         <div class="media-hody">
             <h5 class="mt-0">

@@ -58,12 +58,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     for x in range(user.count()):
                         if result[z][1].lower() == user[x].mac_address.lower():
                             print(user[x].user_name + ":" + user[x].mac_address + " is alive")
-                            data.append({"user_name":user[x].user_name,
-                                         "email_address":user[x].email_address,
-                                         "mac_address":user[x].mac_address,
-                                         "avatar":user[x].avatar,
-                                         "ip_address":result[z][0]})
-                self.write_message(json.dumps(data), binary=False)
+                            data.append({"user_name": str(user[x].user_name),
+                                         "email_address": str(user[x].email_address),
+                                         "mac_address": str(user[x].mac_address),
+                                         "avatar": str(user[x].avatar),
+                                         "ip_address": str(result[z][0])})
+                self.write_message(json.dumps(data))
             else:
                 break
             time.sleep(15)

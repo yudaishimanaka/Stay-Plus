@@ -11,10 +11,11 @@ ws.onerror = function() {
 };
 
 ws.onmessage = function(event) {
-    var string = event.data.replace("[['", '')
-    string = string.replace("']]", '')
-    var array = string.split("', '")
-    console.log(array)
+    parseData = JSON.parse(event.data)
+    $('#flex-container').html("")
+    for(i=0; i < parseData.length; i++){
+       $('#flex-container').append('<div class="card" style="width: 15rem; margin-top: 15px; margin-right:15px;"><div class="card-block"><h3 class="card-title">' + parseData[i]['user_name'] + '</h3><p class="card-text">IP:' + parseData[i]['ip_address'] + '</p><p class="card-text">MAC:' + parseData[i]['mac_address'] + '</p></div></div>')
+    }
     ws.send('hello')
 };
 

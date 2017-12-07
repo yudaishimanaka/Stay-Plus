@@ -1,6 +1,5 @@
 from database import Session as Ss
 from models import User
-from datetime import timedelta
 import tornado.ioloop
 import tornado.web
 import tornado.websocket
@@ -12,7 +11,6 @@ import threading
 
 
 ip_fmt = "192.168.1.%d"
-lock = threading.Lock()
 clients = []
 
 
@@ -86,4 +84,3 @@ if __name__ == "__main__":
     t.start()
     app.listen(port=8888)
     tornado.ioloop.IOLoop.instance().start()
-

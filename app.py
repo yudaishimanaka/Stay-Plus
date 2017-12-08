@@ -66,6 +66,7 @@ def setting():
             data = f.read()
             profile_image = b64encode(data)
             f.close()
+            Ss.close()
             return render_template('setting.html', user=user, profile_image=profile_image.decode('utf-8'))
         else:
             return render_template('setting.html', user=user)
@@ -117,6 +118,7 @@ def auth():
 
         if user_name and password:
             user = Ss.query(User).filter_by(user_name=user_name).first()
+            Ss.close()
 
             if user is not None and pbkdf2_sha256.verify(password, user.password) is True:
                 session['user_name'] = user_name

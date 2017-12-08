@@ -70,6 +70,7 @@ def send_message_to_client():
                                          "avatar": str(user[x].avatar),
                                          "ip_address": str(result[z][0])})
                 c.write_message(json.dumps(data))
+                Ss.close()
             time.sleep(15)
     except tornado.websocket.WebSocketClosedError:
         pass

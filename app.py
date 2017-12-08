@@ -22,6 +22,13 @@ def dashboard():
     else:
         return redirect(url_for('signin'))
 
+@app.route('/usage')
+def usage():
+    if 'user_name' in session:
+        return render_template('usage.html')
+    else:
+        return redirect(url_for('signin'))
+
 
 @app.route('/signin')
 def signin():

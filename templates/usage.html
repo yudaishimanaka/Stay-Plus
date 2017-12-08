@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center" style="margin-top: 150px;">お使いのOSを選択してください</h2>
+<h2 class="text-center">SNMPエージェントの設定を行います</h2>
+<div class="d-flex flex-wrap justify-content-center align-items-center">
+    <div class="card text-center" style="width: 15rem; margin-top: 15px; margin-right:15px; margin-left: 15px;">
+      <div class="card-block">
+        <img src="static/images/linux.png">
+        <h3 class="card-title">Linux</h3>
+        <a href="#" class="btn btn-outline-primary">Linux</a>
+      </div>
+    </div>
+    <div class="card text-center" style="width: 15rem; margin-top: 15px; margin-right:15px;">
+      <div class="card-block">
+        <img src="static/images/mac.png">
+        <h3 class="card-title">OS X</h3>
+        <a href="#" class="btn btn-outline-primary">OS X</a>
+      </div>
+    </div>
+    <div class="card text-center" style="width: 15rem; margin-top: 15px; margin-right:15px;">
+      <div class="card-block">
+        <img src="static/images/windows.png">
+        <h3 class="card-title">Windows</h3>
+        <a href="#" class="btn btn-outline-primary">Windows</a>
+      </div>
+    </div>
+</div>
+{% endblock %}

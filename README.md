@@ -15,6 +15,7 @@
 ## Deploy
 1. DBの作成 
 `$ mysql -u root -p`
+`mysql> create database stay_and_analyzation;`
 2. DBのinitialize ※プロジェクトのルートで行ってください
 `$ python`
 ```python
@@ -22,7 +23,9 @@
 
 >>> init_db()
 ```
-3. サーバーの起動
+3. イメージ保存ディレクトリの作成
+`$ sudo mkdir /client_images`
+4. サーバーの起動
 `$ python app.py && python stay_status.py`
 
 http://machine_ip:5000/signin

@@ -24,7 +24,7 @@
 >>> init_db()
 ```
 3. イメージ保存ディレクトリの作成
-`$ sudo mkdir /client_images`
+`$ sudo mkdir /client_images && sudo chmod 755 /clinet_images`
 4. サーバーの起動
 `$ python app.py && python stay_status.py`
 

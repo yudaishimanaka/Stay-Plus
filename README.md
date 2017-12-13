@@ -12,6 +12,7 @@
 `$ pip install -r requirements.txt`
 3. 必要な外部ソフトウェアのインストール
 `$ sudo apt-get install arping mysql-client mysql-server`
+ ※軽量Linuxに限っては一部外部パケージが必要である(`$ sudo apt-get install iputils`)
 
 ## Deploy
 1. DBの作成 
@@ -27,6 +28,6 @@
 3. イメージ保存ディレクトリの作成
 `$ sudo mkdir /client_images && sudo chmod 755 /clinet_images`
 4. サーバーの起動
-`$ python app.py && python stay_status.py`
+`$ python app.py & && python stay_status.py &`
 
 http://machine_ip:5000/signin

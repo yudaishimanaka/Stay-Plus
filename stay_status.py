@@ -81,7 +81,10 @@ app = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    t = threading.Thread(target=send_message_to_client)
-    t.start()
+    try:
+        t = threading.Thread(target=send_message_to_client)
+        t.start()
+    except AssertionError:
+        pass
     app.listen(port=8888)
     tornado.ioloop.IOLoop.instance().start()

@@ -132,14 +132,17 @@ def auth():
 @app.route('/change_profile_image', methods=['POST'])
 def change_profile_image():
     if request.method == "POST":
-        avatar = request.files['avatar']
-        filename = avatar.filename
-        avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        user = Ss.query(User).filter_by(user_name=session['user_name']).one()
-        user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
-        Ss.commit()
-        Ss.close()
-        return redirect('setting')
+        if request.files['avatar']:
+            avatar = request.files['avatar']
+            filename = avatar.filename
+            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+            user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
+            Ss.commit()
+            Ss.close()
+            return redirect('setting')
+        else:
+            return redirect('setting')
 
 
 if __name__ == "__main__":

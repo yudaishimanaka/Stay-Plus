@@ -145,5 +145,15 @@ def change_profile_image():
             return redirect('setting')
 
 
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    if request.method == 'POST':
+        user_name = request.form['user_name']
+        match_user = Ss.query(User).filter_by(user_name=user_name).one()
+        Ss.delete(match_user)
+        Ss.commit()
+        Ss.close()
+
+
 if __name__ == "__main__":
     app.run(debug=True)

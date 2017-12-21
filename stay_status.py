@@ -1,6 +1,7 @@
 from database import Session as Ss
 from models import User
-import tornado.ioloop
+from tornado import gen
+from tornado.ioloop import IOLoop
 import tornado.web
 import tornado.websocket
 import json
@@ -8,6 +9,7 @@ import time
 import subprocess
 import re
 import threading
+import datetime
 
 
 ip_fmt = "192.168.1.%d"
@@ -53,27 +55,29 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         clients.remove(self)
 
 
+@gen.coroutine
 def send_message_to_client():
-    try:
-        while True:
-            for c in clients:
-                data = []
-                result = get_mac()
-                user = Ss.query(User)
-                for z in range(len(result)):
-                    for x in range(user.count()):
-                        if result[z][1].lower() == user[x].mac_address.lower():
-                            print(user[x].user_name + ":" + user[x].mac_address + " is alive")
-                            data.append({"user_name": str(user[x].user_name),
-                                         "email_address": str(user[x].email_address),
-                                         "mac_address": str(user[x].mac_address),
-                                         "avatar": str(user[x].avatar),
-                                         "ip_address": str(result[z][0])})
-                c.write_message(json.dumps(data))
-                Ss.close()
-            time.sleep(15)
-    except tornado.websocket.WebSocketClosedError:
-        pass
+    while True:
+        for c in clients:
+            data = []
+            result = get_mac()
+            user = Ss.query(User)
+            for z in range(len(result)):
+                for x in range(user.count()):
+                    if result[z][1].lower() == user[x].mac_address.lower():
+                        print(user[x].user_name + ":" + user[x].mac_address + " is alive")
+                        data.append({"user_name": str(user[x].user_name),
+                                     "email_address": str(user[x].email_address),
+                                     "mac_address": str(user[x].mac_address),
+                                     "avatar": str(user[x].avatar),
+                                     "ip_address": str(result[z][0])})
+            c.write_message(json.dumps(data))
+            Ss.close()
+
+        yield gen.Task(
+            IOLoop.current().add_timeout,
+            datetime.timedelta(milliseconds=15000)
+        )
 
 
 app = tornado.web.Application([
@@ -81,10 +85,6 @@ app = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    try:
-        t = threading.Thread(target=send_message_to_client)
-        t.start()
-    except AssertionError:
-        pass
+    send_message_to_client()
     app.listen(port=8888)
-    tornado.ioloop.IOLoop.instance().start()
+    IOLoop.current().start()

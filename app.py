@@ -6,10 +6,12 @@ from models import User
 import re
 import os
 from base64 import b64encode
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/client_images"
+UPLOAD_FOLDER = "./client_images"
+ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'gif', 'svg', 'tif', 'tiff', 'bmp', 'ico'])
 
 app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -21,6 +23,7 @@ def dashboard():
         return render_template('dashboard.html')
     else:
         return redirect(url_for('signin'))
+
 
 @app.route('/usage')
 def usage():
@@ -129,18 +132,25 @@ def auth():
     return redirect(url_for('signin'))
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/change_profile_image', methods=['POST'])
 def change_profile_image():
     if request.method == "POST":
         if request.files['avatar']:
             avatar = request.files['avatar']
-            filename = avatar.filename
-            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            user = Ss.query(User).filter_by(user_name=session['user_name']).one()
-            user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
-            Ss.commit()
-            Ss.close()
-            return redirect('setting')
+            if avatar and allowed_file(avatar.filename):
+                file_extension = avatar.filename.rsplit('.', 1)[1].lower()
+                avatar.filename = str(session['user_name']) + '.' + str(file_extension)
+                filename = secure_filename(avatar.filename)
+                avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+                user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
+                Ss.commit()
+                Ss.close()
+                return redirect('setting')
         else:
             return redirect('setting')
 

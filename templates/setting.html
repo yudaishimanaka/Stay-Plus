@@ -31,23 +31,26 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="modalLabel">Change Profile Image</h4>
+                    <h4 class="modal-title" id="modalLabel">Editor Your Profile</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="/change_profile_image" method="post" enctype="multipart/form-data">
-                        <div class="mx-auto" style="width:135px;">
-                            <div class="imagePreview"></div>
+                    <form action="/edit_profile" method="post" enctype="multipart/form-data">
+                        <div class="mx-auto" style="width:130px;">
+                            <div class="imagePreview mx-auto"></div>
                         </div>
                         <div class="input-group" style="margin-bottom:8px">
                             <label class="input-group-btn" style="margin-bottom:0px;">
                                 <span class="btn btn-primary">
-                                    Choose File<input type="file" style="display:none;" class="uploadFile" id="avatar" name="avatar">
+                                    Choose Image<input type="file" style="display:none;" class="uploadFile" id="avatar" name="avatar">
                                 </span>
                             </label>
                             <input type="text" class="form-control" readonly="" style="padding-top:0px;padding-bottom:0px;">
                         </div>
-                        <div class="input-group mx-auto" style="width: 100px;">
-                            <button type="submit" class="btn btn-outline-primary">Change</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" name="username">
+                        </div>
+                        <div class="input-group mx-auto" style="width: 100px; margin-top: 8px;">
+                            <button type="submit" class="btn btn-outline-primary mx-auto">Edit</button>
                         </div>
                     </form>
                 </div>

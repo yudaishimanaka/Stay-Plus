@@ -135,7 +135,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/change_profile_image', methods=['POST'])
+@app.route('/edit_profile', methods=['POST'])
 def change_profile_image():
     if request.method == "POST":
         if request.files['avatar']:
@@ -146,12 +146,19 @@ def change_profile_image():
                 filename = secure_filename(avatar.filename)
                 avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+                os.remove(os.path.join(user.avatar))
                 user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
                 Ss.commit()
                 Ss.close()
-                return redirect('setting')
-        else:
-            return redirect('setting')
+
+        if request.form['username']:
+            user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+            user.user_name = request.form['username']
+            session['user_name'] = request.form['username']
+            Ss.commit()
+            Ss.close()
+
+    return redirect('setting')
 
 
 @app.route('/delete_user', methods=['POST'])

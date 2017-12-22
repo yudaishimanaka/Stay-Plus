@@ -1,4 +1,4 @@
-var WS_URL = "ws://localhost:8888/ws/"
+var WS_URL = "ws://" + location.hostname + ":8888/ws/"
 
 var ws = new WebSocket(WS_URL);
 

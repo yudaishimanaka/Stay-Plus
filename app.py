@@ -10,11 +10,10 @@ from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "./client_images"
 ALLOWED_EXTENSIONS = set(['jpg', 'png', 'jpeg', 'gif', 'svg', 'tif', 'tiff', 'bmp', 'ico'])
 
 app.config['SECRET_KEY'] = '4v2sVZKZ5x6ln1ht4WnF'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = "./client_images"
 
 
 @app.route('/dashboard')

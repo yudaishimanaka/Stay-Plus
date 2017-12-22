@@ -44,6 +44,6 @@ venv.bak/
 
 # Stay-Plus only
 config/database.conf
-.idea/
+.idea/*
 client_images/*
 !client_images/.gitkeep

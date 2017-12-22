@@ -146,6 +146,7 @@ def change_profile_image():
                 filename = secure_filename(avatar.filename)
                 avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+                os.remove(os.path.join(user.avatar))
                 user.avatar = str(app.config['UPLOAD_FOLDER'] + "/" + filename)
                 Ss.commit()
                 Ss.close()

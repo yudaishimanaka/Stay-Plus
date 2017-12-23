@@ -151,11 +151,17 @@ def change_profile_image():
                 Ss.close()
 
         if request.form['username']:
-            user = Ss.query(User).filter_by(user_name=session['user_name']).one()
-            user.user_name = request.form['username']
-            session['user_name'] = request.form['username']
-            Ss.commit()
+            query = Ss.query(User).filter_by(user_name=request.form['username'])
             Ss.close()
+            if query.count() > 0:
+                session['msg'] = "ユーザーネームが使用されていたため変更できませんでした。"
+            else:
+                user = Ss.query(User).filter_by(user_name=session['user_name']).one()
+                user.user_name = request.form['username']
+                session['user_name'] = request.form['username']
+                Ss.commit()
+                Ss.close()
+                session.pop('msg', None)
 
     return redirect('setting')
 

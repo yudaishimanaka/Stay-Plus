@@ -24,6 +24,9 @@
             Edit Profile
         </button>
     </div>
+    {% if session.msg %}
+    <div id="alert" class="alert alert-danger animated shake" role="alert" style="margin-top:12px;">{{ session.msg }}</div>
+    {% endif %}
     <div class="modal fade" id="flipFlop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
